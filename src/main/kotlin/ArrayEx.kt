@@ -73,6 +73,51 @@ fun calculateSumOfSquared(n: Int): Int {
     return sum.toInt()
 }
 
+// 6
+fun generateNthStr(str: String, x: Int): Array<String> = Array(x) { item -> "$str-${item + 1}" }
+
+// 7, 8, 9
+fun sortArr(arr: Array<Int>, desc: Boolean = false): Array<Int> =
+    if (!desc) arr.sortedArray() else arr.sortedArrayDescending()
+
+// 10
+fun isSymmetricalNumber(n: Int): Boolean {
+    val numberAsStr = n.toString()
+    val size = numberAsStr.length
+    for (i in numberAsStr.indices) {
+        if (numberAsStr[i] != numberAsStr[size - i - 1]) return false
+    }
+
+    return true
+}
+
+// 11
+fun isPrimeNumber(n: Int): Boolean {
+    if (n <= 1) {
+        return false
+    }
+
+    for (i in 2..(n / 2)) {
+        if (n % i == 0) {
+            return false
+        }
+    }
+
+    return true
+}
+
+// 12
+data class ArrayResult(val max: Int?, val maxEven: Int?, val maxOdd: Int?, val maxPrime: Int?)
+
+fun findMaxsInArray(arr: Array<Int>): ArrayResult {
+    val max = arr.maxOrNull()?.toInt()
+    val maxEven = arr.filter { it % 2 == 0 }.maxOrNull()?.toInt()
+    val maxOdd = arr.filter { it % 2 != 0 }.maxOrNull()
+    val maxPrime = arr.filter { isPrimeNumber(it) }.maxOrNull()?.toInt()
+
+    return ArrayResult(max, maxEven, maxOdd, maxPrime)
+}
+
 fun main() {
     val arr = Array(5) { Random.nextInt(0, 10) }
     print("Original array: ")
@@ -98,6 +143,33 @@ fun main() {
     resultTuple = countEvenAndOddNumber(n)
     println("$n's (even, odd): $resultTuple")
 
-    var result = calculateSumOfSquared(n)
+    // 5
+    val result = calculateSumOfSquared(n)
     println("S($n) = $result")
+
+    // 6
+    val resultArray = generateNthStr("nlhdung", (1..100).random())
+    resultArray.forEach { print("$it ") }
+    println()
+
+    // 7, 9
+    var resultIntArr = sortArr(arr)
+    resultIntArr.forEach { print("$it ") }
+    println()
+
+    // 8, 9
+    resultIntArr = sortArr(arr, true)
+    resultIntArr.forEach { print("$it ") }
+    println()
+
+    // 10
+    println("Is 121 symmetrical: ${isSymmetricalNumber(121)}")
+    println("Is 123 symmetrical: ${isSymmetricalNumber(123)}")
+
+    // 11
+    println("Is 7 a prime number: ${isPrimeNumber(7)}")
+    println("Is 22 a prime number: ${isPrimeNumber(22)}")
+
+    // 12
+    println(findMaxsInArray(arr))
 }
